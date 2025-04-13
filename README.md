@@ -20,7 +20,7 @@ The UniFiProtectG4Doorbell project is designed to interact with and manage UniFi
 ### Setup
 1. **Clone the repository**:
    ```
-   git clone https://github.com/your-repo/UniFiProtectG4Doorbell.git
+   git clone https://github.com/techcoderjoe/UniFiProtectG4Doorbell.git
    cd UniFiProtectG4Doorbell
    ```
 2. **Open the solution file**:
