@@ -28,15 +28,24 @@ namespace UniFiProtectG4Doorbell.Services
 
         public ExtendedDeviceInfo? GetDoorbellSoundLinkByDoorbellId(int doorbellId)
         {
-            ExtendedDeviceInfo? result = _doorbellSoundLinkRepository.GetDoorbellSoundLinkByDoorbellId(doorbellId)
+            List<DoorbellSoundLink> doorbellSoundLinks = _doorbellSoundLinkRepository.GetDoorbellSoundLinkByDoorbellId(doorbellId);
+
+            if (doorbellSoundLinks == null || !doorbellSoundLinks.Any())
+            {
+                return null;
+            }
+
+            ExtendedDeviceInfo? result = doorbellSoundLinks
                 .GroupBy(g => g.doorbell)
+                .Where(w => w.Key != null)
                 .Select(d => new ExtendedDeviceInfo()
                 {
-                    doorbellName = d.Key.doorbellName,
-                    doorbellId = d.Key.doorbellId,
-                    ipAddress = d.Key.ipAddress,
-                    sounds = d.Select(s => s.sound.ToDTO()).ToList() 
-                }).FirstOrDefault();
+                    doorbellName = d.Key!.doorbellName,
+                    doorbellId = d.Key!.doorbellId,
+                    ipAddress = d.Key!.ipAddress,
+                    sounds = d.Where(s => s.sound != null).Select(s => s.sound!.ToDTO()).ToList()
+                })
+                .FirstOrDefault();
 
             return result;
         }
@@ -56,43 +65,71 @@ namespace UniFiProtectG4Doorbell.Services
 
         public ExtendedSoundInfo? GetDoorbellSoundLinkBySoundId(int soundId)
         {
-            ExtendedSoundInfo? result = _doorbellSoundLinkRepository.GetDoorbellSoundLinkBySoundId(soundId)
+            List<DoorbellSoundLink> doorbellSoundLinks = _doorbellSoundLinkRepository.GetDoorbellSoundLinkBySoundId(soundId);
+
+            if (doorbellSoundLinks == null || !doorbellSoundLinks.Any())
+            {
+                return null;
+            }
+
+            ExtendedSoundInfo? result = doorbellSoundLinks
                 .GroupBy(g => g.sound)
+                .Where(w => w.Key != null)
                 .Select(s => new ExtendedSoundInfo()
                 {
-                    soundFileName = s.Key.soundFileName,
-                    soundId = s.Key.soundId,
-                    devices = s.Select(d => d.doorbell.ToDTO()).ToList()
-                }).FirstOrDefault();
+                    soundFileName = s.Key!.soundFileName,
+                    soundId = s.Key!.soundId,
+                    devices = s.Where(d => d.doorbell != null).Select(d => d.doorbell!.ToDTO()).ToList()
+                })
+                .FirstOrDefault();
 
             return result;
         }
 
         public List<ExtendedDeviceInfo> GetDoorbellSoundLinksGroupByDoorbell()
         {
-            List<ExtendedDeviceInfo>? result = _doorbellSoundLinkRepository.GetDoorbellSoundLinks()
+            List<DoorbellSoundLink> doorbellSoundLinks = _doorbellSoundLinkRepository.GetDoorbellSoundLinks();
+
+            if (doorbellSoundLinks == null || !doorbellSoundLinks.Any())
+            {
+                return new List<ExtendedDeviceInfo>();
+            }
+
+            List<ExtendedDeviceInfo> result = doorbellSoundLinks
                 .GroupBy(g => g.doorbell)
+                .Where(w => w.Key != null) //Filter out groups with null keys.
                 .Select(d => new ExtendedDeviceInfo()
                 {
-                    doorbellName = d.Key.doorbellName,
-                    doorbellId = d.Key.doorbellId,
-                    ipAddress = d.Key.ipAddress,
-                    sounds = d.Select(s => s.sound.ToDTO()).ToList()
-                }).ToList();
+                    doorbellName = d.Key!.doorbellName,
+                    doorbellId = d.Key!.doorbellId,
+                    ipAddress = d.Key!.ipAddress,
+                    sounds = d.Where(s => s.sound != null).Select(s => s.sound!.ToDTO()).ToList()
+                })
+                .ToList();
 
             return result;
+
         }
 
         public List<ExtendedSoundInfo> GetDoorbellSoundLinksGroupBySound()
         {
-            List<ExtendedSoundInfo> result = _doorbellSoundLinkRepository.GetDoorbellSoundLinks()
+            List<DoorbellSoundLink> doorbellSoundLinks = _doorbellSoundLinkRepository.GetDoorbellSoundLinks();
+
+            if (doorbellSoundLinks == null || !doorbellSoundLinks.Any())
+            {
+                return new List<ExtendedSoundInfo>();
+            }
+
+            List<ExtendedSoundInfo> result = doorbellSoundLinks
                 .GroupBy(g => g.sound)
+                .Where(w => w.Key != null)
                 .Select(s => new ExtendedSoundInfo()
                 {
-                    soundFileName = s.Key.soundFileName,
-                    soundId = s.Key.soundId,
-                    devices = s.Select(d => d.doorbell.ToDTO()).ToList()
-                }).ToList();
+                    soundFileName = s.Key!.soundFileName,
+                    soundId = s.Key!.soundId,
+                    devices = s.Where(d => d.doorbell != null).Select(d => d.doorbell!.ToDTO()).ToList()
+                })
+                .ToList();
 
             return result;
         }
@@ -102,7 +139,7 @@ namespace UniFiProtectG4Doorbell.Services
             throw new NotImplementedException();
         }
 
-        public Validation isValid(DoorbellSoundLinkInfo DoorbellSoundLinkInfo)
+        public Validation isValid(DoorbellSoundLinkInfo? DoorbellSoundLinkInfo)
         {
             throw new NotImplementedException();
         }

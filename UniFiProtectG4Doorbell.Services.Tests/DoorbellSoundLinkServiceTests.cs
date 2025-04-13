@@ -294,7 +294,7 @@ namespace UniFiProtectG4Doorbell.Services.Tests
             //Act
             int rowsAffected = await doorbellSoundLinkService.SaveDoorbellSoundLink(expected);
 
-            DoorbellSoundLinkInfo actual = doorbellSoundLinkService.GetDoorbellSoundLinkByLinkId(8);
+            DoorbellSoundLinkInfo? actual = doorbellSoundLinkService.GetDoorbellSoundLinkByLinkId(8);
 
             //Assert
             Assert.NotNull(actual);
@@ -354,7 +354,7 @@ namespace UniFiProtectG4Doorbell.Services.Tests
             DoorbellSoundLinkRepository doorbellSoundLinkRepository = new(_context.DoorbellContext);
             DoorbellSoundLinkService doorbellSoundLinkService = new(doorbellSoundLinkRepository);
 
-            DoorbellSoundLinkInfo doorbellSoundLinkInfo = doorbellSoundLinkService.GetDoorbellSoundLinkByLinkId(1);
+            DoorbellSoundLinkInfo? doorbellSoundLinkInfo = doorbellSoundLinkService.GetDoorbellSoundLinkByLinkId(1);
 
             //Act
             Validation actual = doorbellSoundLinkService.isValid(doorbellSoundLinkInfo);
@@ -372,7 +372,7 @@ namespace UniFiProtectG4Doorbell.Services.Tests
             DoorbellSoundLinkRepository doorbellSoundLinkRepository = new(_context.DoorbellContext);
             DoorbellSoundLinkService doorbellSoundLinkService = new(doorbellSoundLinkRepository);
 
-            DoorbellSoundLinkInfo doorbellSoundLinkInfo = doorbellSoundLinkService.GetDoorbellSoundLinkByLinkId(1);
+            DoorbellSoundLinkInfo? doorbellSoundLinkInfo = doorbellSoundLinkService.GetDoorbellSoundLinkByLinkId(1);
 
             //Act
             Validation actual = doorbellSoundLinkService.isValid(doorbellSoundLinkInfo);
