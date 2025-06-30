@@ -1,6 +1,8 @@
 # UniFiProtectG4Doorbell
 ## Overview
-The UniFiProtectG4Doorbell project is designed to interact with and manage UniFi Protect G4 Doorbell systems. This project is divided into several parts, including data models, services, and testing modules, ensuring a well-structured and maintainable codebase.
+**This project is now obsolete.** The functionality to adjust Doorbell volume and change the ringtone has been officially added to the UniFi Protect UI in UniFi Protect Application 5.3.38. For more details, please refer to the [release notes](https://community.ui.com/releases/UniFi-Protect-Application-5-3-38/58a6ccdd-16de-46cb-94fe-6922fcd2e9fc).
+
+The UniFiProtectG4Doorbell project was designed to interact with and manage UniFi Protect G4 Doorbell systems. This project is divided into several parts, including data models, services, and testing modules, ensuring a well-structured and maintainable codebase.
 
 ## Project Structure
 * **UniFiProtectG4Doorbell.sln**: The main solution file for the project.
